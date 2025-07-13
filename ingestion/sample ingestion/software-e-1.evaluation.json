@@ -1,0 +1,33 @@
+{
+  "evaluated_at": "2025-07-10T16:42:00Z",
+  "target_role": "Software Engineer",
+  "scores": {
+    "content": 4,
+    "clarity": 3,
+    "structure": 4,
+    "visual": 3,
+    "ats": 4,
+    "language": 5,
+    "overall": 78
+  },
+  "rationales": {
+    "content": "Strong alignment with software engineering keywords and quantified achievements, but lacks specific metrics for some projects.",
+    "clarity": "Some sections are verbose and could be more concise.",
+    "structure": "Overall logical order, but some headings could be clearer.",
+    "visual": "Readable but could benefit from better whitespace management.",
+    "ats": "Mostly ATS-friendly, but some formatting issues with contact info.",
+    "language": "No grammar or spelling errors noted."
+  },
+  "highlights": [
+    {
+      "page": 1,
+      "text": "Migration of IU Print website from ColdFusion to ASP.Net",
+      "note": "Relevant technical experience"
+    },
+    {
+      "page": 1,
+      "text": "Won Associate of the Month award",
+      "note": "Demonstrates recognition and achievement"
+    }
+  ]
+}

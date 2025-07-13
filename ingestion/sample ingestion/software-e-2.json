@@ -1,0 +1,57 @@
+{
+    "meta": {
+      "checksum": "sha256:1a9c4e...7b",
+      "parsed_at": "2025-07-10T14:05:31Z",
+      "file_name": "se-2.pdf",
+      "page_count": 2,
+      "parser_version": "0.3.1"
+    },
+    "candidate": {
+      "full_name": "Sara Novak",
+      "contact": {
+        "email": "sara.novak@example.com",
+        "phone": "+421 903 444 555",
+        "location": "Bratislava, SK",
+        "github": "https://github.com/snovak"
+      }
+    },
+    "sections": {
+      "experience": [
+        {
+          "title": "Full-stack Engineer",
+          "employer": "FinTech Labs",
+          "start_date": "2021-01",
+          "end_date": "present",
+          "bullets": [
+            "Built React-Go micro-front-end, serving 80 k DAU",
+            "Introduced Cypress e2e tests → 25 % fewer prod bugs"
+          ]
+        },
+        {
+          "title": "Junior Developer",
+          "employer": "StartApp",
+          "start_date": "2019-04",
+          "end_date": "2020-12",
+          "bullets": [
+            "Maintained legacy PHP monolith",
+            "Implemented CI pipeline (GitHub Actions)"
+          ]
+        }
+      ],
+      "education": [],
+      "skills": {
+        "hard": ["Go", "TypeScript", "React", "AWS"],
+        "soft": ["Mentoring"]
+      },
+      "certifications": ["AWS SAA"],
+      "languages": [
+        {"name": "Slovak", "level": "native"},
+        {"name": "English", "level": "C1"}
+      ],
+      "awards": ["Best Dev Intern 2019"]
+    },
+    "media_refs": [
+      {"page": 1, "bbox": [50, 60, 140, 150], "type": "photo", "file": "media/photo.jpg"}
+    ]
+  }
+  

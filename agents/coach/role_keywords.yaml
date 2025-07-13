@@ -1,0 +1,27 @@
+software_engineer:
+  critical:
+    - python
+    - go
+    - kubernetes
+    - ci/cd
+  important:
+    - grpc
+    - terraform
+    - microservices
+  nice_to_have:
+    - aws
+    - graphql
+
+product_manager:
+  critical:
+    - roadmap
+    - okr
+    - stakeholder management
+    - data analytics
+  important:
+    - a/b testing
+    - sql
+    - amplitude
+  nice_to_have:
+    - pricing strategy
+    - growth experiments

@@ -1,0 +1,48 @@
+{
+    "meta": {
+      "checksum": "sha256:d3b56c...e9",
+      "parsed_at": "2025-07-10T14:05:31Z",
+      "file_name": "se-1.pdf",
+      "page_count": 1,
+      "parser_version": "0.3.1"
+    },
+    "candidate": {
+      "full_name": "Alex Müller",
+      "contact": {
+        "email": "alex.mueller@example.com",
+        "phone": "+49 151 12345678",
+        "location": "Munich, DE",
+        "linkedin": "https://linkedin.com/in/alexmueller"
+      },
+      "summary": "Back-end engineer with 3 yrs Go + PostgreSQL"
+    },
+    "sections": {
+      "experience": [
+        {
+          "title": "Backend Engineer",
+          "employer": "Acme GmbH",
+          "location": "Munich",
+          "start_date": "2022-03",
+          "end_date": "present",
+          "bullets": [
+            "Cut API latency 40 % by migrating to gRPC",
+            "Maintained 12-node PostgreSQL cluster (99.99 % uptime)"
+          ]
+        }
+      ],
+      "education": [
+        {
+          "title": "B.Sc. Computer Science",
+          "employer": "TU München",
+          "location": "Munich",
+          "start_date": "2018-10",
+          "end_date": "2022-02"
+        }
+      ],
+      "skills": {
+        "hard": ["Go", "PostgreSQL", "Docker", "Kubernetes"],
+        "soft": ["Pair-programming", "Agile"]
+      }
+    }
+  }
+  

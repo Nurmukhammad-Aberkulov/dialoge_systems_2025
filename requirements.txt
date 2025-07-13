@@ -1,0 +1,13 @@
+# Core
+openai
+google-generativeai
+python-dotenv
+pdfplumber
+PyYAML
+tenacity
+pyyaml
+streamlit>=1.34
+plotly>=5.20
+pdfplumber>=0.11
+pyyaml>=6.0
+watchdog

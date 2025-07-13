@@ -1,0 +1,45 @@
+{
+    "meta": {
+      "checksum": "sha256:8e77bd...aa",
+      "parsed_at": "2025-07-10T14:05:31Z",
+      "file_name": "pm-1.pdf",
+      "page_count": 1,
+      "parser_version": "0.3.1"
+    },
+    "candidate": {
+      "full_name": "Joel Tan",
+      "contact": {
+        "email": "joel.tan@example.com",
+        "phone": "+65 8123 4567",
+        "location": "Singapore"
+      },
+      "summary": "PM driving data-led B2B SaaS growth"
+    },
+    "sections": {
+      "experience": [
+        {
+          "title": "Product Manager",
+          "employer": "DataCloud Pte Ltd",
+          "start_date": "2020-06",
+          "end_date": "present",
+          "bullets": [
+            "Launched freemium tier → +37 % sign-ups",
+            "Prioritised roadmap using RICE; met 3-qtr OKRs"
+          ]
+        }
+      ],
+      "education": [
+        {
+          "title": "M.Sc. Management",
+          "employer": "NUS",
+          "start_date": "2018-08",
+          "end_date": "2020-05"
+        }
+      ],
+      "skills": {
+        "hard": ["SQL", "Amplitude", "A/B testing"],
+        "soft": ["Stakeholder management", "Public speaking"]
+      }
+    }
+  }
+  

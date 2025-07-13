@@ -1,0 +1,22 @@
+{
+  "advice": {
+    "critical": [
+      "Incorporate specific metrics for projects, especially for the migration of the IU Print website.",
+      "Ensure that your contact information is formatted correctly for ATS compatibility."
+    ],
+    "important": [
+      "Revise verbose sections to enhance clarity and conciseness.",
+      "Clarify headings to improve the overall structure and navigation of the document."
+    ],
+    "nice_to_have": [
+      "Consider adding experience with Kubernetes and CI/CD tools to align with critical role keywords.",
+      "Highlight any experience with AWS or GraphQL if applicable."
+    ]
+  },
+  "rewrites": [
+    {
+      "before": "Migration of IU Print website from ColdFusion to ASP.Net",
+      "after": "Led the migration of the IU Print website from ColdFusion to ASP.Net, improving load times by 20%."
+    }
+  ]
+}
