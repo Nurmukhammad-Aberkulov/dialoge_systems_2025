@@ -1,8 +1,3 @@
-#!/usr/bin/env python3
-"""
-Coach agent: turns evaluation_report + role keywords into actionable advice.
-"""
-
 from __future__ import annotations
 import json, yaml, time
 from pathlib import Path

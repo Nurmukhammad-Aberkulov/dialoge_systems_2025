@@ -1,35 +1,26 @@
-#!/usr/bin/env python3
-"""
-EvaluatorAgent – scores a CV with the rubric.
-"""
-
 from __future__ import annotations
 import json, time
 from pathlib import Path
-from agents.base_agent import BaseAgent      # ← the common mix-in
-from agents.evaluator.extract_text import pdf_to_text
+from agents.base_agent import BaseAgent   
 from agents.evaluator.rubric import RUBRIC, DIMENSIONS
 from agents.evaluator.prompts import SYSTEM_PROMPT, EXAMPLE_OUTPUT
 
 class EvaluatorAgent(BaseAgent):
     """Returns the same evaluation_report JSON we generated before."""
 
-    def build_messages(self, pdf_path: str, structured_json: dict, role: str):
+    def build_messages(self, raw_text: str, structured_json: dict, role: str):
         # --- build rubric markdown table exactly like before -------------
         rubric_md = "### Rubric\n| Dimension | Description | Weight |\n|---|---|---|\n"
         for dim, cfg in RUBRIC.items():
             rubric_md += f"| {dim} | {cfg['description']} | {cfg['weight']} |\n"
-
-        # text extraction (reuse helper)
-        pdf_text = pdf_to_text(pdf_path)
-
+        print(raw_text)
         user_block = (
             f"{rubric_md}\n\n"
             f"### Target role\n{role}\n\n"
             "### Structured résumé JSON\n```json\n"
             f"{json.dumps(structured_json, indent=2)[:8000]}\n```\n"
             "### Extracted CV text (truncated)\n"
-            f"```\n{pdf_text[:8000]}\n```\n"
+            f"```\n{raw_text}\n```\n"
             f"{EXAMPLE_OUTPUT}\n"
             "Respond only with the JSON object."
         )

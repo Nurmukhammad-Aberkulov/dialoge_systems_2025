@@ -12,15 +12,20 @@ from .docx_parser import extract as docx_extract
 from .image_parser import extract as img_extract
 from .cleanup import strip_headers_footers, normalize_whitespace
 from .markdown_utils import to_markdown
-
+from .structure import to_schema
+import pdfplumber
 
 # --------------------------------------------------------------------------- #
-class ParsedResume(namedtuple("ParsedResume", "text metadata")):
+class ParsedResume(namedtuple("ParsedResume", ["text", "metadata", "structured"])):
     """Immutable return object with JSON helpers."""
     __slots__ = ()
 
     def to_dict(self) -> dict:
-        return {"text": self.text, "metadata": self.metadata}
+        return {
+            "text": self.text,
+            "metadata": self.metadata,
+            "structured": self.structured,
+        }
 
     def to_json(self, **json_kwargs) -> str:
         default = {"ensure_ascii": False, "indent": 2}
@@ -60,13 +65,25 @@ def parse_resume(
         raw_text = img_extract(path)
     else:
         raise ValueError(f"Unsupported file type: {filetype}")
+    
+    with pdfplumber.open(path) as pdf:          # only for pdfs
+        raw_text = "\n".join(p.extract_text() or "" for p in pdf.pages)
+        page_count = len(pdf.pages)
 
     # ---------- cleanup -----------------------------------------------------
     cleaned = normalize_whitespace(strip_headers_footers(raw_text))
-
-    # ---------- optional Markdown conversion -------------------------------
+        # ---------- optional Markdown conversion -------------------------------
     if convert_to_md:
         cleaned = to_markdown(cleaned)
 
-    metadata = {"filetype": filetype, "source": str(path)}
-    return ParsedResume(text=cleaned, metadata=metadata)
+    structured = to_schema(cleaned, filepath=path)
+    structured["meta"]["page_count"] = page_count
+
+    return ParsedResume(
+        text=cleaned,
+        metadata={"filetype": filetype, "source": str(path)},
+        structured=structured,
+    )
+
+
+

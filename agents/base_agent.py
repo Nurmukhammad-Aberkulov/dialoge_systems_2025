@@ -50,7 +50,6 @@ class BaseAgent(ABC):
                 model=self.model_name,
                 messages=messages,
                 temperature=0.2,
-                max_tokens=2048,
             )
             return resp.choices[0].message.content.strip()
         else:  # google
