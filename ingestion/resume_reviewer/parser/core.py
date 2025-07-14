@@ -59,16 +59,17 @@ def parse_resume(
     # ---------- extraction --------------------------------------------------
     if filetype == "pdf":
         raw_text = pdf_extract(path)
+        # Get page count for PDFs
+        with pdfplumber.open(path) as pdf:
+            page_count = len(pdf.pages)
     elif filetype == "docx":
         raw_text = docx_extract(path)
+        page_count = 1  # DOCX files are typically single-page documents
     elif filetype in {"jpg", "jpeg", "png", "tiff"}:
         raw_text = img_extract(path)
+        page_count = 1  # Images are single-page
     else:
         raise ValueError(f"Unsupported file type: {filetype}")
-    
-    with pdfplumber.open(path) as pdf:          # only for pdfs
-        raw_text = "\n".join(p.extract_text() or "" for p in pdf.pages)
-        page_count = len(pdf.pages)
 
     # ---------- cleanup -----------------------------------------------------
     cleaned = normalize_whitespace(strip_headers_footers(raw_text))
