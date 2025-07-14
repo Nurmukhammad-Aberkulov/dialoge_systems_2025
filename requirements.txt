@@ -31,3 +31,5 @@ plotly
 python-dotenv
 graphviz
 pygraphviz
+
+gradio
