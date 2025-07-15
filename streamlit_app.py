@@ -24,25 +24,31 @@ with st.sidebar:
     st.session_state.update(role=role, country=country)
 
 # ── upload résumé ────────────────────────────────────────────────────────
-pdf_file = st.file_uploader("Upload your résumé (PDF)", type=["pdf"])
-if pdf_file:
-    with tempfile.NamedTemporaryFile(delete=False, suffix=".pdf") as tmp:
-        tmp.write(pdf_file.read())
-        pdf_path = tmp.name
+resume_file = st.file_uploader("Upload your résumé (PDF, PNG, DOCX)", type=["pdf", "png", "docx"])
+if resume_file:
+    # Get file extension for proper temporary file naming
+    file_extension = resume_file.name.split('.')[-1].lower()
+    with tempfile.NamedTemporaryFile(delete=False, suffix=f".{file_extension}") as tmp:
+        tmp.write(resume_file.read())
+        resume_path = tmp.name
 
-    parsed = parse_resume(pdf_path, convert_to_md=False)
+    parsed = parse_resume(resume_path, convert_to_md=False)
     st.session_state.update(
-        pdf_path=pdf_path,
+        pdf_path=resume_path,
         resume_text=parsed.text,
         resume_structured=parsed.structured,
     )
 
     st.success("Résumé processed")
-    pdf_viewer(pdf_path, height=550)
+    # Only show PDF viewer for PDF files
+    if file_extension == 'pdf':
+        pdf_viewer(resume_path, height=550)
+    else:
+        st.info(f"Uploaded {file_extension.upper()} file processed successfully")
 
     with st.spinner("Running multi-agent analysis …"):
         result = run_pipeline(
-            pdf_path        = pdf_path,
+            pdf_path        = resume_path,
             resume_text     = parsed.text,
             structured_json = parsed.structured,
             role            = role,
