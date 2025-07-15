@@ -1,20 +1,46 @@
+# agents/evaluator/evaluator_agent.py
+
 from __future__ import annotations
-import json, time
+import json
 from pathlib import Path
-from agents.base_agent import BaseAgent   
+from agents.base_agent import BaseAgent
 from agents.evaluator.rubric import RUBRIC, DIMENSIONS
 from agents.evaluator.prompts import SYSTEM_PROMPT, EXAMPLE_OUTPUT
 
-class EvaluatorAgent(BaseAgent):
-    """Returns the same evaluation_report JSON we generated before."""
+from langchain.agents import initialize_agent, AgentType
+from langchain.chat_models import ChatOpenAI
+from agents.tools.calculator import calculator
 
-    def build_messages(self, raw_text: str, structured_json: dict, role: str):
-        # --- build rubric markdown table exactly like before -------------
+
+class EvaluatorAgent(BaseAgent):
+    """Returns an evaluation_report JSON using LLM + tools like calculator."""
+
+    def __init__(self):
+        super().__init__()
+        self.tools = [calculator]
+        self.llm = ChatOpenAI(temperature=0)
+        self.agent = initialize_agent(
+            tools=self.tools,
+            llm=self.llm,
+            agent=AgentType.OPENAI_FUNCTIONS,
+            verbose=True,
+        )
+
+    # Dummy method to satisfy BaseAgent ABC
+    def build_messages(self, **inputs):
+        raise NotImplementedError("build_messages is unused when using tool-powered agent.")
+
+    def __call__(self, **inputs):
+        prompt = self._build_user_prompt(**inputs)
+        raw = self.agent.run(prompt)
+        return self.postprocess(raw, **inputs)
+
+    def _build_user_prompt(self, raw_text: str, structured_json: dict, role: str) -> str:
         rubric_md = "### Rubric\n| Dimension | Description | Weight |\n|---|---|---|\n"
         for dim, cfg in RUBRIC.items():
             rubric_md += f"| {dim} | {cfg['description']} | {cfg['weight']} |\n"
-        print(raw_text)
-        user_block = (
+
+        return (
             f"{rubric_md}\n\n"
             f"### Target role\n{role}\n\n"
             "### Structured résumé JSON\n```json\n"
@@ -24,15 +50,10 @@ class EvaluatorAgent(BaseAgent):
             f"{EXAMPLE_OUTPUT}\n"
             "Respond only with the JSON object."
         )
-        return [
-            {"role": "system", "content": SYSTEM_PROMPT},
-            {"role": "user", "content": user_block},
-        ]
 
-    # ------------ post-processing identical to old parse_response -------
     def postprocess(self, raw_response: str, **_):
         start = raw_response.find("{")
-        end   = raw_response.rfind("}") + 1
+        end = raw_response.rfind("}") + 1
         report = json.loads(raw_response[start:end])
 
         missing = [k for k in DIMENSIONS if k not in report.get("scores", {})]
@@ -41,7 +62,7 @@ class EvaluatorAgent(BaseAgent):
         return report
 
 
-# Optional CLI entry-point so you can still run it standalone -------------
+# Optional CLI
 if __name__ == "__main__":
     import argparse
     p = argparse.ArgumentParser()

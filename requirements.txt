@@ -22,6 +22,7 @@ google-generativeai==0.8.5       # legacy; plan migration by Aug 31, 2025
 langchain>=0.3,<0.4
 langchain-core>=0.3,<0.4
 
+
 # LangGraph
 langgraph==0.5.2
 langgraph-prebuilt==0.5.2
@@ -30,4 +31,5 @@ langgraph-cli
 plotly
 python-dotenv
 graphviz
-pygraphviz
+
+langchain_community

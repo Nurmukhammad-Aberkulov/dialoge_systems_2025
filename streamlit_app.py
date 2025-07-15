@@ -65,19 +65,45 @@ if "report" in st.session_state:
         ["Scores", "Feedback", "Market insights"]
     )
 
-    # ▸ Scores
+    # # ▸ Scores
+    # with tab_scores:
+    #     rep = st.session_state["report"]
+    #     st.subheader("Rubric scores")
+    #     st.json(rep, expanded=False)
+
+    #     # Normalize scores to 0–5 scale for radar chart
+    #     radar_df = pd.DataFrame({
+    #         "dimension": [k.capitalize() for k in rep["scores"] if k != "overall"],
+    #         "score":     [v / 20 for k, v in rep["scores"].items() if k != "overall"],
+    #     })
+
+    #     fig = px.line_polar(radar_df, r="score", theta="dimension",
+    #                         line_close=True, range_r=[0, 5])
+    #     st.plotly_chart(fig, use_container_width=True)
+
     with tab_scores:
         rep = st.session_state["report"]
         st.subheader("Rubric scores")
         st.json(rep, expanded=False)
 
+        raw_scores = {k: v for k, v in rep["scores"].items() if k != "overall"}
+
+        max_score = max(raw_scores.values())
+        normalize = max_score > 5
+
+        # Normalize and scale up for better visualization
+        scale = 1 if not normalize else 5 / max_score  # keep max ~5
         radar_df = pd.DataFrame({
-            "dimension": [k.capitalize() for k in rep["scores"] if k != "overall"],
-            "score":     [v for k, v in rep["scores"].items() if k != "overall"],
+            "dimension": [k.capitalize() for k in raw_scores],
+            "score":     [v * scale for v in raw_scores.values()],
         })
+
         fig = px.line_polar(radar_df, r="score", theta="dimension",
                             line_close=True, range_r=[0, 5])
         st.plotly_chart(fig, use_container_width=True)
+
+
+
 
     # ▸ Feedback
     with tab_feedback:
