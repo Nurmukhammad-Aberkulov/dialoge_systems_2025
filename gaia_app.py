@@ -1,10 +1,18 @@
 import os
+from pathlib import Path
+from typing import final
+
 import gradio as gr
 import requests
 import inspect
 import pandas as pd
 
 from agents.coach.coach import CoachAgent as CVAgent
+from agents.evaluator.evaluator_agent import EvaluatorAgent
+from ingestion.resume_reviewer.parser import parse_resume
+from ingestion.resume_reviewer.parser.cleanup import normalize_whitespace, strip_headers_footers
+from ingestion.resume_reviewer.parser.core import ParsedResume
+from ingestion.resume_reviewer.parser.structure import to_schema
 
 # (Keep Constants as is)
 # --- Constants ---
@@ -71,7 +79,15 @@ def run_and_submit_all( profile: gr.OAuthProfile | None):
             print(f"Skipping item with missing task_id or question: {item}")
             continue
         try:
-            submitted_answer = agent(question_text)
+            role = "Software Engineer"
+            structured_json = parse_raw_resume(question_text).structured
+            report = EvaluatorAgent()(
+                raw_text=question_text,  # ➋ FIXED
+                structured_json=structured_json,
+                role=role,
+            )
+            final_json = agent(target_role=role, evaluation_json=report, resume_structured=structured_json)
+            submitted_answer = str(final_json['advice']['critical'][0])
             answers_payload.append({"task_id": task_id, "submitted_answer": submitted_answer})
             results_log.append({"Task ID": task_id, "Question": question_text, "Submitted Answer": submitted_answer})
         except Exception as e:
@@ -160,6 +176,26 @@ with gr.Blocks() as demo:
     run_button.click(
         fn=run_and_submit_all,
         outputs=[status_output, results_table]
+    )
+
+def parse_raw_resume(raw_text: str):
+    """
+    Parse a resume and return text + metadata.
+    Acts as a dummy method
+
+    Returns
+    -------
+    ParsedResume
+    """
+
+    cleaned = normalize_whitespace(strip_headers_footers(raw_text))
+    structured = to_schema(cleaned, filepath=Path(__file__))
+    structured["meta"]["page_count"] = 1
+
+    return ParsedResume(
+        text=cleaned,
+        metadata={"filetype": "txt", "source": __file__},
+        structured=structured,
     )
 
 if __name__ == "__main__":
