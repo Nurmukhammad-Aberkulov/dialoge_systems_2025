@@ -29,7 +29,6 @@ langgraph-cli
 
 plotly
 python-dotenv
-graphviz
-pygraphviz
 
 gradio
+gradio[oauth]

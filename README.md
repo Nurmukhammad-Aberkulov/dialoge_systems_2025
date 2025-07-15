@@ -12,6 +12,7 @@ hf_oauth: true
 hf_oauth_expiration_minutes: 480
 ---
 # dialoge_systems_2025
+
 ## CV Evaluator: Multi-Agent Resume Feedback App 📄🤖
 
 This app analyzes your CV using multiple LangGraph-based agents to generate targeted evaluation, actionable feedback, and live market insights tailored to your chosen role and country.
@@ -22,6 +23,8 @@ This app analyzes your CV using multiple LangGraph-based agents to generate targ
 
 ### 1. Clone and Install
 
+#### On Linux/Mac:
+
 ```bash
 git clone https://github.com/Nurmukhammad-Aberkulov/dialoge_systems_2025.git
 cd dialogue_systems_2025
@@ -30,12 +33,32 @@ source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
+#### On Windows (PowerShell):
+
+```powershell
+git clone https://github.com/Nurmukhammad-Aberkulov/dialoge_systems_2025.git
+cd dialogue_systems_2025
+python -m venv .venv
+.venv\Scripts\Activate.ps1
+pip install -r requirements.txt
+```
+
 ### 2. Run the App
+
+#### On Linux/Mac:
+
 ```bash
 streamlit run streamlit_app.py
 ```
 
+#### On Windows (PowerShell):
+
+```powershell
+python -m streamlit run streamlit_app.py
+```
+
 ### What It Does
+
 📄 Resume Parsing
 Uses a parser to extract structured information and raw text from the uploaded PDF.
 
@@ -51,8 +74,8 @@ Searches live job postings for recruiter expectations: top keywords, soft skills
 🔁 LangGraph DAG
 Orchestrates the full pipeline: parsing → evaluation → coaching + market insights (in parallel).
 
-
 ### Example Usage
+
 Upload your CV (PDF)
 
 Select your target role and country
@@ -65,8 +88,8 @@ Actionable feedback with rewrites
 
 Recruiter keyword expectations and salary ranges
 
-
 ### Project Structure
+
 ```bash
 agents/
   ├── evaluator/
