@@ -16,7 +16,9 @@ st.title("📄 CV Evaluation & Feedback Demo")
 
 with st.sidebar:
     st.header("🔑 API")
-    st.text_input("OpenAI API key", type="password", key="openai_api_key")
+    api_key = st.text_input("OpenAI API key", type="password", key="openai_api_key")
+    if api_key:
+        os.environ["OPENAI_API_KEY"] = api_key
     st.radio("Model provider", ["openai", "google"], key="model_provider")
     st.divider()
     role    = st.selectbox("Target role", ["Software Engineer", "Product Manager"])

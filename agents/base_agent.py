@@ -13,11 +13,12 @@ class BaseAgent(ABC):
     Subclasses can define self.tools = [...] to use them.
     """
 
-    def __init__(self, model_provider: str | None = None):
-        self.provider = (model_provider or
-                         os.getenv("MODEL_PROVIDER", "openai")).lower()
+    def __init__(self, model_provider: str | None = None, api_key: str | None = None):
+        self.provider = (model_provider or os.getenv("MODEL_PROVIDER", "openai")).lower()
+        self.api_key = api_key or os.getenv("OPENAI_API_KEY")
         self.client, self.model_name = self._make_client()
         self.tools = []  # Optional: subclasses can override
+
 
     # ---- public API ------------------------------------------------------
     def __call__(self, **inputs):
@@ -35,13 +36,19 @@ class BaseAgent(ABC):
     def _make_client(self):
         if self.provider == "openai":
             from openai import OpenAI
-            return OpenAI(api_key=os.environ["OPENAI_API_KEY"]), "gpt-4o"
+            if not self.api_key:
+                raise ValueError("Missing OpenAI API key")
+            return OpenAI(api_key=self.api_key), "gpt-4o"
         elif self.provider == "google":
             import google.generativeai as genai
-            genai.configure(api_key=os.environ["GEMINI_API_KEY"])
+            if not self.api_key:
+                raise ValueError("Missing Gemini API key")
+            genai.configure(api_key=self.api_key)
             return genai, "gemini-1.5-flash"
         else:
             raise ValueError("Unknown provider")
+
+
 
     # ---- LLM chat call with tool support (OpenAI) ------------------------
     @retry(wait=wait_exponential(), stop=stop_after_attempt(3))

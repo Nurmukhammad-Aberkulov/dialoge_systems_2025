@@ -2,42 +2,41 @@ from __future__ import annotations
 import json, yaml, time
 from pathlib import Path
 from agents.base_agent import BaseAgent
+import streamlit as st
+from langchain.agents import initialize_agent, AgentType
+from agents.coach.prompts import EXAMPLE_JSON, SYSTEM_PROMPT
+from langchain.chat_models import ChatOpenAI
+from agents.tools.coaching_tools import (
+    keyword_gap_tool,
+    bullet_improver_tool,
+    salary_lookup_tool,
+    web_search_tool
+)
 
-EXAMPLE_JSON = """```json
-{
-  "advice": {
-    "critical": [
-      "Add quantified metrics to at least two bullets in your Experience section.",
-      "Move 'Skills' section above Education to increase ATS keyword density."
-    ],
-    "important": [
-      "Compress the summary to 2 sentences.",
-      "Increase font size of section headings for readability."
-    ],
-    "nice_to_have": [
-      "Mention any open-source contributions.",
-      "Include links to portfolio projects."
-    ]
-  },
-  "rewrites": [
-    {
-      "before": "Responsible for migrating database.",
-      "after": "Led migration from MySQL to PostgreSQL, reducing query latency by 35 %."
-    }
-  ]
-}
-```"""
+
+
 
 class CoachAgent(BaseAgent):
-    SYSTEM_PROMPT = (
-        "You are a career-coach agent. Based on the evaluation report, "
-        "produce targeted, actionable feedback grouped by priority. "
-        "Return ONLY a JSON object exactly like the example given."
-    )
 
-    def __init__(self, keyword_path: str | Path, *args, **kw):
-        super().__init__(*args, **kw)
+    def __init__(self, keyword_path: str | Path, tools: list | None = None, *args, **kw):
+        super().__init__(api_key=st.session_state.get("openai_api_key"), *args, **kw)
         self.role_kw = yaml.safe_load(Path(keyword_path).read_text())
+
+
+        # Set up LLM + tools
+       
+        self.tools = []
+
+        if self.tools:
+            self.llm = ChatOpenAI(temperature=0, openai_api_key=self.api_key)
+            self.agent = initialize_agent(
+                tools=self.tools,
+                llm=self.llm,
+                agent=AgentType.OPENAI_FUNCTIONS,
+                verbose=True,
+            )
+        else:
+            self.agent = None  # fall back to vanilla _chat
 
     # ---------- Agent interface -----------------------------------------
     def build_messages(self, target_role: str, evaluation_json: dict,
@@ -52,7 +51,7 @@ class CoachAgent(BaseAgent):
             "Respond with ONLY the JSON."
         )
         return [
-            {"role": "system", "content": self.SYSTEM_PROMPT},
+            {"role": "system", "content": SYSTEM_PROMPT},
             {"role": "user", "content": context},
         ]
 

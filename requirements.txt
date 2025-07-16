@@ -33,3 +33,4 @@ python-dotenv
 graphviz
 
 langchain_community
+duckduckgo-search

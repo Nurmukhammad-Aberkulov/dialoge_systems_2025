@@ -5,6 +5,7 @@ import json
 from typing import Dict, Any
 
 from agents.base_agent import BaseAgent
+import streamlit as st
 
 
 class MarketInsightsAgent(BaseAgent):
@@ -13,6 +14,8 @@ class MarketInsightsAgent(BaseAgent):
     The agent first asks the LLM to list 4–5 relevant job-ad URLs, then
     summarises the hottest tech/soft skills and a salary hint.
     """
+    def __init__(self):
+        super().__init__(api_key=st.session_state.get("openai_api_key"))
 
     SYSTEM_PROMPT = (
         "You are a labour-market analyst. Use the web links provided to "
@@ -32,6 +35,8 @@ class MarketInsightsAgent(BaseAgent):
   ]
 }
 ```"""
+
+
 
     # ------------------------------------------------------------------ #
     # Helper 1: let the LLM fetch a few fresh links

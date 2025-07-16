@@ -6,22 +6,35 @@ from pathlib import Path
 from agents.base_agent import BaseAgent
 from agents.evaluator.rubric import RUBRIC, DIMENSIONS
 from agents.evaluator.prompts import SYSTEM_PROMPT, EXAMPLE_OUTPUT
-
 from langchain.agents import initialize_agent, AgentType
 from langchain.chat_models import ChatOpenAI
 from agents.tools.calculator import calculator
+from langchain.tools import DuckDuckGoSearchRun
+from langchain.agents import Tool
+import streamlit as st
+from pydantic import BaseModel, Field
+import os
+
 
 
 class EvaluatorAgent(BaseAgent):
     """Returns an evaluation_report JSON using LLM + tools like calculator."""
 
     def __init__(self):
-        super().__init__()
-        self.tools = [calculator]
-        self.llm = ChatOpenAI(temperature=0)
+        super().__init__(api_key=st.session_state.get("openai_api_key"))
+
+        # Use API key from UI or .env
+
+        api_key = st.session_state.get("openai_api_key") or os.getenv("OPENAI_API_KEY")
+
+        # Set up LLM + tools
+        self.tools = [calculator,
+        ]
+        self.llm = ChatOpenAI(temperature=0, openai_api_key=api_key, response_format={"type": "json_object"},)
         self.agent = initialize_agent(
             tools=self.tools,
             llm=self.llm,
+            prefix=SYSTEM_PROMPT,
             agent=AgentType.OPENAI_FUNCTIONS,
             verbose=True,
         )
