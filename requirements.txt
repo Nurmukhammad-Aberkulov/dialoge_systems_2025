@@ -9,7 +9,6 @@ pillow==10.3.0
 filetype==1.2.0
 markdownify==1.1.0
 python-dateutil==2.9.0
-PyYAML==6.0
 beautifulsoup4==4.13.4
 requests==2.32.0
 watchdog==4.0.0
