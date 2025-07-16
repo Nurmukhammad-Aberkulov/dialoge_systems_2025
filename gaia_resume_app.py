@@ -7,7 +7,7 @@ import requests
 import inspect
 import pandas as pd
 
-from agents.gaia_adapter.gaia_agent import GAIA_Agent
+from agents.coach.coach import CoachAgent as CVAgent
 from agents.evaluator.evaluator_agent import EvaluatorAgent
 from ingestion.resume_reviewer.parser import parse_resume
 from ingestion.resume_reviewer.parser.cleanup import normalize_whitespace, strip_headers_footers
@@ -17,6 +17,12 @@ from ingestion.resume_reviewer.parser.structure import to_schema
 # (Keep Constants as is)
 # --- Constants ---
 DEFAULT_API_URL = "https://agents-course-unit4-scoring.hf.space"
+
+"""
+Please note that this is to be treated as a proof-of-concept for resume-like questions/prompts only. 
+The agent will give resume advice to every question asked, which is not how the GAIA benchmark works.
+Unfortunately, at the moment there is no resume based benchmark online that we know of.
+"""
 
 def run_and_submit_all( profile: gr.OAuthProfile | None):
     """
@@ -39,7 +45,7 @@ def run_and_submit_all( profile: gr.OAuthProfile | None):
 
     # 1. Instantiate Agent ( modify this part to create your agent)
     try:
-        agent = GAIA_Agent()
+        agent = CVAgent("agents/coach/role_keywords.yaml")
     except Exception as e:
         print(f"Error instantiating agent: {e}")
         return f"Error initializing agent: {e}", None
@@ -79,7 +85,15 @@ def run_and_submit_all( profile: gr.OAuthProfile | None):
             print(f"Skipping item with missing task_id or question: {item}")
             continue
         try:
-            submitted_answer = agent(question=question_text)
+            role = "Software Engineer"
+            structured_json = parse_raw_resume(question_text).structured
+            report = EvaluatorAgent()(
+                raw_text=question_text,  # ➋ FIXED
+                structured_json=structured_json,
+                role=role,
+            )
+            final_json = agent(target_role=role, evaluation_json=report, resume_structured=structured_json)
+            submitted_answer = str(final_json['advice']['critical'][0])
             answers_payload.append({"task_id": task_id, "submitted_answer": submitted_answer})
             results_log.append({"Task ID": task_id, "Question": question_text, "Submitted Answer": submitted_answer})
         except Exception as e:

@@ -30,5 +30,6 @@ langgraph-cli
 plotly
 python-dotenv
 
+
 gradio
 gradio[oauth]
