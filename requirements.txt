@@ -30,7 +30,8 @@ langgraph-cli
 
 plotly
 python-dotenv
-graphviz
 
+gradio
+gradio[oauth]
 langchain_community
 duckduckgo-search
