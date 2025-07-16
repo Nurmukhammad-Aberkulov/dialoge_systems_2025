@@ -57,7 +57,7 @@ class BaseAgent(ABC):
             kwargs = dict(
                 model=self.model_name,
                 messages=messages,
-                temperature=0.2,
+                temperature=0.6,
             )
             if self.tools:
                 kwargs["tools"] = self.tools

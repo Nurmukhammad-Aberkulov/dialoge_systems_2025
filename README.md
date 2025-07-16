@@ -14,7 +14,7 @@ This app analyzes your CV using multiple LangGraph-based agents to generate targ
 
 ```bash
 git clone https://github.com/Nurmukhammad-Aberkulov/dialoge_systems_2025.git
-cd dialogue_systems_2025/
+cd dialoge_systems_2025
 ```
 !!! IMPORTANT: install version of python: python=3.12
 ```bash

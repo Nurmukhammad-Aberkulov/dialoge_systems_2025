@@ -23,9 +23,10 @@ langchain-core>=0.3,<0.4
 
 
 # LangGraph
-langgraph==0.5.2
-langgraph-prebuilt==0.5.2
+langgraph>=0.5.2
+langgraph-prebuilt>=0.5.2
 langgraph-cli
+langchain_openai
 
 plotly
 python-dotenv

@@ -5,7 +5,7 @@ from agents.base_agent import BaseAgent
 import streamlit as st
 from langchain.agents import initialize_agent, AgentType
 from agents.coach.prompts import EXAMPLE_JSON, SYSTEM_PROMPT
-from langchain.chat_models import ChatOpenAI
+from langchain_openai import ChatOpenAI
 from agents.tools.coaching_tools import (
     keyword_gap_tool,
     bullet_improver_tool,
@@ -28,7 +28,7 @@ class CoachAgent(BaseAgent):
         self.tools = []
 
         if self.tools:
-            self.llm = ChatOpenAI(temperature=0, openai_api_key=self.api_key)
+            self.llm = ChatOpenAI(temperature=0.6, openai_api_key=self.api_key,     model="gpt-4o",  model_kwargs={"response_format": {"type": "json_object"}})
             self.agent = initialize_agent(
                 tools=self.tools,
                 llm=self.llm,

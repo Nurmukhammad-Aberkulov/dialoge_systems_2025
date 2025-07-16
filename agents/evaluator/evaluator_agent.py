@@ -7,7 +7,7 @@ from agents.base_agent import BaseAgent
 from agents.evaluator.rubric import RUBRIC, DIMENSIONS
 from agents.evaluator.prompts import SYSTEM_PROMPT, EXAMPLE_OUTPUT
 from langchain.agents import initialize_agent, AgentType
-from langchain.chat_models import ChatOpenAI
+from langchain_openai import ChatOpenAI
 from agents.tools.calculator import calculator
 from langchain.tools import DuckDuckGoSearchRun
 from langchain.agents import Tool
@@ -30,7 +30,7 @@ class EvaluatorAgent(BaseAgent):
         # Set up LLM + tools
         self.tools = [calculator,
         ]
-        self.llm = ChatOpenAI(temperature=0, openai_api_key=api_key, response_format={"type": "json_object"},)
+        self.llm = ChatOpenAI(temperature=0.6, openai_api_key=self.api_key,     model="gpt-4o",  model_kwargs={"response_format": {"type": "json_object"}})
         self.agent = initialize_agent(
             tools=self.tools,
             llm=self.llm,
