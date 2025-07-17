@@ -3,7 +3,8 @@
 ## CV Evaluator: Multi-Agent Resume Feedback App 📄🤖
 
 This app analyzes your CV using multiple LangGraph-based agents to generate targeted evaluation, actionable feedback, and live market insights tailored to your chosen role and country.
-
+slides:
+https://docs.google.com/presentation/d/1ey0MPfkkJC2pLusqfVlbmG5RLaU3whQT/edit?usp=sharing&ouid=104202224460510555998&rtpof=true&sd=true
 ---
 
 ## 🚀 Quickstart
