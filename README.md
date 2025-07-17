@@ -73,6 +73,7 @@ Searches live job postings for recruiter expectations: top keywords, soft skills
 Orchestrates the full pipeline: parsing → evaluation → coaching + market insights (in parallel).
 
 ### Example Usage
+Enter Your OPENAI-API-KEY
 
 Upload your CV (PDF)
 
