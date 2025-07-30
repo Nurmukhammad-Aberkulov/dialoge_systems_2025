@@ -21,15 +21,17 @@ https://drive.google.com/file/d/1Iu-MO-zWno7A78Bcv4zElU_pn71jPFyk/view?usp=shari
 git clone https://github.com/Nurmukhammad-Aberkulov/dialoge_systems_2025.git
 cd dialoge_systems_2025
 ```
-!!! IMPORTANT: install version of python: python=3.12
-```bash
-python -m venv .venv
-source .venv/bin/activate
-```
-Or alternatively use conda 
+⚠️ IMPORTANT: Make sure you are using Python 3.12. If it's not installed, install it first via pyenv, conda, or your system's package manager.
+
+Recommended to use conda 
 ```bash
 conda create -n test python=3.12
 conda activate test
+```
+Or alternatively
+```bash
+python3.12 -m venv .venv
+source .venv/bin/activate
 ```
 
 ```bash
@@ -41,7 +43,7 @@ pip install -r requirements.txt
 ```powershell
 git clone https://github.com/Nurmukhammad-Aberkulov/dialoge_systems_2025.git
 cd dialogue_systems_2025
-python -m venv .venv
+py -3.12 -m venv .venv
 .venv\Scripts\Activate.ps1
 pip install -r requirements.txt
 ```
