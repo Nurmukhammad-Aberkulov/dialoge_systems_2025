@@ -3,7 +3,12 @@
 ## CV Evaluator: Multi-Agent Resume Feedback App 📄🤖
 
 This app analyzes your CV using multiple LangGraph-based agents to generate targeted evaluation, actionable feedback, and live market insights tailored to your chosen role and country.
+slides:
+https://docs.google.com/presentation/d/1ey0MPfkkJC2pLusqfVlbmG5RLaU3whQT/edit?usp=sharing&ouid=104202224460510555998&rtpof=true&sd=true    
 
+
+demo:
+https://drive.google.com/file/d/1Iu-MO-zWno7A78Bcv4zElU_pn71jPFyk/view?usp=sharing
 ---
 
 ## 🚀 Quickstart
@@ -16,17 +21,19 @@ This app analyzes your CV using multiple LangGraph-based agents to generate targ
 git clone https://github.com/Nurmukhammad-Aberkulov/dialoge_systems_2025.git
 cd dialoge_systems_2025
 ```
-!!! IMPORTANT: install version of python: python=3.12
-```bash
-python -m venv .venv
-source .venv/bin/activate
-```
-Or alternatively use conda 
+⚠️ IMPORTANT: Make sure you are using Python 3.12. If it's not installed, install it first via pyenv, conda, or your system's package manager.
+
+Recommended to use conda 
 ```bash
 conda create -n test python=3.12
 conda activate test
 ```
-
+Or alternatively
+```bash
+python3.12 -m venv .venv
+source .venv/bin/activate
+```
+##### Requirements to be installed next
 ```bash
 pip install -r requirements.txt
 ```
@@ -36,7 +43,7 @@ pip install -r requirements.txt
 ```powershell
 git clone https://github.com/Nurmukhammad-Aberkulov/dialoge_systems_2025.git
 cd dialogue_systems_2025
-python -m venv .venv
+py -3.12 -m venv .venv
 .venv\Scripts\Activate.ps1
 pip install -r requirements.txt
 ```
@@ -73,6 +80,7 @@ Searches live job postings for recruiter expectations: top keywords, soft skills
 Orchestrates the full pipeline: parsing → evaluation → coaching + market insights (in parallel).
 
 ### Example Usage
+Enter Your OPENAI-API-KEY
 
 Upload your CV (PDF)
 
